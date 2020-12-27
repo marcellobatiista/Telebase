@@ -73,7 +73,7 @@ Sintaxe da mensagem no Telegram:
 
 ### Métodos
 
-Para ter acessos aos métodos do telebase, é preciso primeiro, ter um objeto instanciado da classe ``Base``. Essa classe recebe dois parâmetros. O primeiro parâmetro, que é obrigatório, recebe uma instância ``Client``, do Pyrogram, para que o script funcione. O segundo parâmetro é opcional, ele recebe o link do canal. O link do canal, pode ser passado como argumento tanto na classe ``Base`` como no método ``consultar`` do objeto da classe ``Dados``, que é retornado quando se cria o objeto da classe ``Base`` ; mas não pode ser passado para os dois ao mesmo tempo, caso aconteça, dispara uma exceção informando que o argumento já foi passado como parâmetro.
+Para ter acessos aos métodos do telebase, é preciso primeiro, ter um objeto instanciado da classe ``Base``. Essa classe tem dois parâmetros. O primeiro parâmetro, que é obrigatório, recebe uma instância ``Client``, do Pyrogram, para que o script funcione. O segundo parâmetro é opcional, ele recebe o link do canal. O link do canal, pode ser passado como argumento tanto na classe ``Base`` como no método ``consultar`` do objeto da classe ``Dados``, que é retornado quando se cria o objeto da classe ``Base`` ; mas não pode ser passado para os dois ao mesmo tempo, caso aconteça, dispara uma exceção informando que o argumento já foi passado como parâmetro.
 
 Essa flexibilidade foi criada, caso exista a possibilidade de ter que usar mais de um canal para consulta de dados.
 
