@@ -4,6 +4,8 @@
 
 ---
 
+<div align="center">
+
 [1. O que é](#O-que-é)
 
 [2. A ideia](#A-ideia)
@@ -13,6 +15,8 @@
 [4. Métodos](#Métodos)
 
 [5. Resumo](#Resumo)
+
+</div>
 
 ---
 
