@@ -1,12 +1,18 @@
+<p align="center">
 <img src="imagens/Telebasetranslogo.png" width=300 height=300 />
+</p>
 
 ---
 
 [1. O que é](#O-que-é)
-[  -  2. A ideia](#A-ideia)
-[  -  3. Informações importantes](#Informações-importantes)
-[  -  4. Métodos](#Métodos)
-[  -  5. Resumo](#Resumo)
+
+[2. A ideia](#A-ideia)
+
+[3. Informações importantes](#Informações-importantes)
+
+[4. Métodos](#Métodos)
+
+[5. Resumo](#Resumo)
 
 ---
 
