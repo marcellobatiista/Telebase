@@ -1,6 +1,5 @@
 <p align="center">
 <img src="imagens/Telebasetranslogo.png" width=300 height=300 />
-  Fazendo do telegram uma base de dados externa, através de canais privados, podendo consultar, editar e remover dados contidos neles.
 </p>
 
 ---
@@ -23,8 +22,7 @@
 
 ### O que é
 
-Telebase é um script feito com a necessidade de resgatar, editar e remover dados, já enviados, em um canal do Telegram, através de uma identificação única por mensagem.
-
+Telebase é um script feito com a necessidade de resgatar, editar e remover dados, já enviados, em um canal privado do Telegram, fazendo dele uma base de dados externa, através de uma identificação única por mensagem.
 
 
 ### A ideia
