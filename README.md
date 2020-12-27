@@ -105,9 +105,9 @@ Essa flexibilidade foi criada, caso exista a possibilidade de ter que usar mais 
 
 
 
-##### adicionarValor(< chave >, < valor >)
+##### adicionarDado(< chave >, < valor >)
 
-##### removerValor(< chave >)
+##### removerDado(< chave >)
 
 ---
 
