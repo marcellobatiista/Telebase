@@ -1,5 +1,6 @@
 <p align="center">
 <img src="imagens/Telebasetranslogo.png" width=300 height=300 />
+<p> Fazendo do telegram uma base de dados externa, através de canais privados, podendo consultar, editar e remover dados contidos neles. </p>
 </p>
 
 ---
