@@ -38,7 +38,7 @@ Por enquanto,  a única alternativa, que encontrei, foi usar o Telegram, o mensa
 
 O Telebase usa Pyrogram, um framework simples e elegante, para se comunicar com o Telegram. 
 
-requirements:
+requirements: 
 
 `` pip3 install -U pyrogram tgcrypto ``
 
