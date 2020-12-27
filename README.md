@@ -54,6 +54,7 @@ Sintaxe da mensagem no Telegram:
 
 * O aplicativo permite enviar uma mensagem com até 65.536 caracteres. Com essa enorme quantidade, é possível ter diversas chaves, de diferentes tamanhos, contendo valores, de diferentes tamanhos, para cada mensagem. Ou seja, pode ter estes pares de chaves e muito mais:
 <p align="center">
+  
 ![](imagens/msg.png)
 </p>
 
