@@ -27,13 +27,19 @@ class Base(Dados):
         self.__api = app
         self.__entidade = entidade
         
+        self.__api.start()
+        
+        if (entidade != None):
+            self.__entidade = self.__api.get_chat(entidade)
+        
         
     def consultar(self, informacao, entidade = None):
         if entidade == None:
             return Dados(self.__api, self.__entidade, informacao)
         elif entidade != None and self.__entidade == None:
-            return Dados(self.__api, entidade, informacao)
+            return Dados(self.__api, self.__api.get_chat(entidade), informacao)
         else:
             raise Exception('O username/ID já foi argumentado no construtor da classe Base')
 
-
+    def desconectarBase(self):
+        self.__api.stop()
