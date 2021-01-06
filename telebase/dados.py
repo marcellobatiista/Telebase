@@ -28,21 +28,22 @@ class Dados:
 
         self.__api = app
         
-        with self.__api:
-            info = self.__api.get_chat(entidade)
+        info = entidade
             
-            if (info.type == 'channel'):
-                if (info.username != None):
-                    raise Exception('Não é possível consultar dados em canais públicos')
-            elif (entidade != 'me'):
-                raise Exception('Não é possível consultar users/groups como base de dados')
+        if (info.type == 'channel'):
+            if (info.username != None):
+                raise Exception('Não é possível consultar dados em canais públicos')
+        elif (entidade != 'me'):
+            raise Exception('Não é possível consultar users/groups como base de dados')
+        
+        
+        self.__entidade = info.id
                 
-            self.__entidade = info.id
-            
         self.__informacao = informacao
         self.__get_msg(self.__entidade, self.__informacao)
-
+    
         self.dado = self.__dados()
+                     
             
     def __str__(self):
         if self.__msg is None:
@@ -50,17 +51,18 @@ class Dados:
         elif str(self.__msg.text)[:str(self.__msg.text).find('\n')].count('=') >= 2:
             raise Exception('Mensagem fora do padrão')
         return 'Sucesso'
+    
 
     ''' [!] Mensagem em pyrogram.types.Message '''
     def __get_msg(self, entidade, informacao):
-        with self.__api:
-            #Itera mensagens com a mesma informação de busca
-            for msg in enumerate(self.__api.search_messages(entidade, informacao)):
-                self.__msg = msg[1]
+        #Itera mensagens com a mesma informação de busca
+        for msg in enumerate(self.__api.search_messages(entidade, informacao)):
+            self.__msg = msg[1]
 
-                if msg[0] > 0:
-                    raise Exception('Existe duas ou mais mensagens com o mesmo identificador')
-
+            if msg[0] > 0:
+                raise Exception('Existe duas ou mais mensagens com o mesmo identificador')
+                
+        
     ''' [!] Formata a mensagem recebida em string, dentro de um dicionário '''
     def __get_dict(self, msg):
         msg = str(msg)
@@ -78,14 +80,12 @@ class Dados:
 
     ''' [!] '''
     def __editaMessage(self, new_msg):
-        with self.__api:
-            try:
-                self.__msg = self.__api.edit_message_text(self.__entidade, self.__msg.message_id, new_msg)
-                return self.__get_dict(self.__msg.text)
-            except pyrogram.errors.exceptions.bad_request_400.MessageNotModified:
-                # Não há modificação de mensagem
-                pass
-        #return CanalDeDados(self.__entidade, self.__informacao).dados()
+        try:
+            self.__msg = self.__api.edit_message_text(self.__entidade, self.__msg.message_id, new_msg)
+            return self.__get_dict(self.__msg.text)
+        except pyrogram.errors.exceptions.bad_request_400.MessageNotModified:
+            # Não há modificação de mensagem
+            return self.__get_dict(new_msg)  
             
     ''' [!] Dados da mensagem '''
     def __dados(self):
@@ -94,11 +94,13 @@ class Dados:
 
     ''' [!] Edita a mensagem relacionada à key e retorna um dicionário '''
     def editarValor(self, key, value):
+        self.dado = self.__dados()
         new_msg = str(self.__msg.text).replace(self.dado[str(key)], str(value)) #Replace
         return self.__editaMessage(new_msg)
 
     ''' [!] Adiciona o dado no fim da mensagem e retorna um dicionário '''
     def adicionarDado(self, key, value):
+        self.dado = self.__dados()
         if (str(key) in str(self.__msg.text)):
             raise NameError('A key já existe na mensagem')
         
@@ -106,7 +108,7 @@ class Dados:
         return self.__editaMessage(new_msg)
 
     ''' [!] Remove uma linha específica da mensagem de acordo a key recebida'''
-    def removerDado(self, key):
+    def removerDado(self, key):        
         new_msg = ''
 
         self.dado.pop(str(key))
