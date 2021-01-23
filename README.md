@@ -62,17 +62,15 @@ Sintaxe da mensagem no Telegram:
 
 * Todos os métodos retornam um dicionário contendo informações da mensagem com suas respectivas linhas.
 
-------
+database = Dados(Client, 'https://')
 
-DATABASE = Dados(Client, 'https://')
----
-DATABASE.dados()
----
-DATABASE.editarValor(<chave>, <novo_valor>)
----
-DATABASE.AdicionarDado(<chave>, <valor>)
----
-DATABASE.removerDado(<chave>)
+database.dados()
+
+database.editarValor(chave, novo_valor)
+
+database.AdicionarDado(chave, valor)
+
+database.removerDado(chave)
 
 ---
 
