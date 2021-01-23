@@ -66,7 +66,7 @@ database.dados()
 
 database.editarValor(chave, novo_valor)
 
-database.AdicionarDado(chave, valor)
+database.adicionarDado(chave, valor)
 
 database.removerDado(chave)
 
