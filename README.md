@@ -61,7 +61,7 @@ Sintaxe da mensagem no Telegram:
 ### Métodos
 
 * Todos os métodos retornam um dicionário contendo informações da mensagem com suas respectivas linhas.
-
+---
 database = Dados(Client, 'https://')
 
 database.dados()
