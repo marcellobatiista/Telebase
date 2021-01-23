@@ -44,9 +44,7 @@ Sintaxe da mensagem no Telegram:
 ![](imagens/msg.png)
 </div>
 
-* A mensagem é encontrada a partir de uma informação única qualquer, entre todas as mensagens contidas no canal privado.
-
-* Não é possível consultar mensagens em canais públicos, grupos públicos/privados ou usuários, exceto você mesmo.
+* A mensagem é encontrada a partir de uma informação única qualquer, entre todas as mensagens.
 
 * Para cada chave, uma linha. Não é possível ter duas ou mais, chaves ou igualdades, na mesma linha. Caso o telebase encontre esse erro de sintaxe, será disparado uma exceção, avisando que alguma chave está fora do padrão.  
 
