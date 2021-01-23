@@ -66,7 +66,7 @@ class Dados:
     def __editaMessage(self, new_msg):
         ''' [!] '''
         try:
-            self.__msg = self.__api.edit_message_text(self.entidade, self.__msg.message_id, new_msg)
+            self.__msg = self.__api.edit_message_text(self.__msg.chat.id, self.__msg.message_id, new_msg)
             return self.__get_dict(self.__msg.text)
         except pyrogram.errors.exceptions.bad_request_400.MessageNotModified:
             # Não há modificação de mensagem
