@@ -10,17 +10,15 @@ class Bot:
   def __init__(self, client):
     self.base = Dados(client, 'https://')
     
-  def search(self, info):
-    self.base.buscar(info)
+  def example(self):
+    self.base.buscar(bot.from_user.id)
     
-  def get_data(self):
-    return self.base.dados()
-  
-  def set_value(self, key, new_value):
-    return self.base.editarValor(key, new_value)
-  
-  def add_line(self, key, value):
-    return self.base.adicionarDado(key, value)
-  
-  def remove_data(self, key):
-    return self.base.removerDado(key)
+    data = self.base.dados()
+    set_data = self.base.editarValor("contato", "+55 71 9 0000-0000")
+    add_data = self.base.adicionarDado("email", "@")
+    remove_data = self.base.removerDado("email")
+    
+    bag = [data, set_data, add_data, remove_data]
+    
+    for b in bag:
+      print(b)
