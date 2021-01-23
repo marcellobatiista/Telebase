@@ -10,25 +10,26 @@
 ##
 ##
 ##
-import pyrogram
+import pyrogram, time
 
 class Dados:
 
-    __entidade = None
-    __informacao = None
+    entidade = None
     __msg = None
     __api = None
-    
-    dado = None
 
-    def __init__(self, app, entidade, informacao):
-
-        if __name__ == '__main__':
-            raise BaseException('É necessário importar a classe Dados no arquivo base.py')
-
-        self.__api = app
+    def __init__(self, app, entidade):
         
-        info = entidade
+        if __name__ == '__main__':
+            raise BaseException('É necessário importar a classe Dados')
+        
+        app.start()
+        
+        print('<----| Client iniciado |---->\n')
+        print('Carregando base de dados...')
+        
+        info = app.get_chat(entidade)
+        self.__api = app
             
         if (info.type == 'channel'):
             if (info.username != None):
@@ -36,14 +37,8 @@ class Dados:
         elif (entidade != 'me'):
             raise Exception('Não é possível consultar users/groups como base de dados')
         
+        self.entidade = info.id
         
-        self.__entidade = info.id
-                
-        self.__informacao = informacao
-        self.__get_msg(self.__entidade, self.__informacao)
-    
-        self.dado = self.__dados()
-                     
             
     def __str__(self):
         if self.__msg is None:
@@ -53,69 +48,68 @@ class Dados:
         return 'Sucesso'
     
 
-    ''' [!] Mensagem em pyrogram.types.Message '''
-    def __get_msg(self, entidade, informacao):
+    def buscar(self, informacao):
+        ''' [!] Mensagem em pyrogram.types.Message '''
         #Itera mensagens com a mesma informação de busca
-        for msg in enumerate(self.__api.search_messages(entidade, informacao)):
-            self.__msg = msg[1]
-
-            if msg[0] > 0:
-                raise Exception('Existe duas ou mais mensagens com o mesmo identificador')
-                
+        for msg in self.__api.search_global(query=informacao, limit = 1):
+            self.__msg = msg
         
-    ''' [!] Formata a mensagem recebida em string, dentro de um dicionário '''
     def __get_dict(self, msg):
-        msg = str(msg)
-        #Separa as linhas
-        line = [p.strip() for p in msg.split('\n')]
-        #Remove linhas vazias
-        while '' in line:
-            line.remove('')
-        #Tira os espaços e transforma cada linha em uma key e value
+        ''' [!] Formata a mensagem recebida em string, dentro de um dicionário '''
         try:
-            return dict([[x[0].strip(), x[1].strip()] for x in [p.split('=') for p in line]])
+            return {p.strip().split('=')[0].strip() : p.strip().split('=')[1].strip() 
+                    for p in str(msg).split('\n') if p != ''}
         except:
             raise Exception('A mensagem foi encontrada, mas o formato de algum dado está fora do padrão')
 
 
-    ''' [!] '''
     def __editaMessage(self, new_msg):
+        ''' [!] '''
         try:
-            self.__msg = self.__api.edit_message_text(self.__entidade, self.__msg.message_id, new_msg)
+            self.__msg = self.__api.edit_message_text(self.entidade, self.__msg.message_id, new_msg)
             return self.__get_dict(self.__msg.text)
         except pyrogram.errors.exceptions.bad_request_400.MessageNotModified:
             # Não há modificação de mensagem
-            return self.__get_dict(new_msg)  
+            return self.__get_dict(new_msg)
+    
+    def __dict_to_text(self, dado):
+        ''' [!] Dict to text '''
+        new_msg = ''
+        
+        for key, value in dado.items():
+            new_msg += key+' = '+value+'\n'
+        new_msg = new_msg[:len(new_msg)-1]
+        
+        return new_msg
             
-    ''' [!] Dados da mensagem '''
-    def __dados(self):
-        self.__str__() #Aviso
-        return self.__get_dict(self.__msg.text) #Dict
-
-    ''' [!] Edita a mensagem relacionada à key e retorna um dicionário '''
+    def dados(self):
+        ''' [!] Dados da mensagem '''
+        try:
+            self.__str__() #Aviso
+            return self.__get_dict(self.__msg.text) #Dict
+        except:
+            pass #print('A mensagem retornou vazia ou fora do padrão')
+            
     def editarValor(self, key, value):
-        self.dado = self.__dados()
-        new_msg = str(self.__msg.text).replace(self.dado[str(key)], str(value)) #Replace
+        ''' [!] Edita a mensagem relacionada à key e retorna um dicionário '''
+        dado = self.dados()
+        dado[key] = value
+        new_msg = self.__dict_to_text(dado)
+        
         return self.__editaMessage(new_msg)
 
-    ''' [!] Adiciona o dado no fim da mensagem e retorna um dicionário '''
     def adicionarDado(self, key, value):
-        self.dado = self.__dados()
+        ''' [!] Adiciona o dado no fim da mensagem e retorna um dicionário '''
         if (str(key) in str(self.__msg.text)):
             raise NameError('A key já existe na mensagem')
         
         new_msg = str(self.__msg.text)+'\n'+str(key)+' = '+str(value)
         return self.__editaMessage(new_msg)
 
-    ''' [!] Remove uma linha específica da mensagem de acordo a key recebida'''
-    def removerDado(self, key):        
-        new_msg = ''
-
-        self.dado.pop(str(key))
-
-        for frag in zip(self.dado.keys(), self.dado.values()):
-            new_msg += frag[0]+' = '+frag[1]+'\n'
-        new_msg = new_msg[:len(new_msg)-1]
+    def removerDado(self, key):
+        ''' [!] Remove uma linha específica da mensagem de acordo a key recebida'''   
+        dado = self.dados().pop(str(key))
+        new_msg = self.__dict_to_text(dado)
         
         return self.__editaMessage(new_msg)
     
