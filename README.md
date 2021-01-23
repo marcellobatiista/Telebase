@@ -65,11 +65,14 @@ Sintaxe da mensagem no Telegram:
 ------
 
 DATABASE = Dados(Client, 'https://')
-
-``DATABASE.dados()``
-``DATABASE.editarValor(<chave>, <novo_valor>)``
-``DATABASE.AdicionarDado(<chave>, <valor>)``
-``DATABASE.removerDado(<chave>)``
+---
+DATABASE.dados()
+---
+DATABASE.editarValor(<chave>, <novo_valor>)
+---
+DATABASE.AdicionarDado(<chave>, <valor>)
+---
+DATABASE.removerDado(<chave>)
 
 ---
 
