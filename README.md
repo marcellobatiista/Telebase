@@ -8,13 +8,9 @@
 
 [1. O que é](#O-que-é)
 
-[2. A ideia](#A-ideia)
-
-[3. Informações importantes](#Informações-importantes)
+[3. Informações](#Informações)
 
 [4. Métodos](#Métodos)
-
-[5. Resumo](#Resumo)
 
 </div>
 
@@ -24,16 +20,7 @@
 
 Telebase é um script feito com a necessidade de resgatar, editar e remover dados, já enviados, em um canal privado do Telegram, fazendo dele uma base de dados externa, através de uma identificação única por mensagem.
 
-
-### A ideia
-
-A ideia surgiu quando tive que guardar e modificar alguns dados quando fosse necessário, enquanto meu robô rodava na plataforma em nuvem, Heroku, que suporta várias linguagens de programação. Eu, ainda, não sei banco de dados, então, eu precisava fazer algo em que pudesse manipular esses dados, que o robô recebia. Armazenar num arquivo e fazer uploads no Google Drive ou em outras plataformas de armazenamento em nuvem semelhantes, não era uma alternativa, pois dependendo do tamanho do arquivo, demoraria de mais, subindo e descendo esses arquivos. PasteBin, a API não dar opção de editar arquivos existentes, somente deletar e reenviar um novo arquivo substituto. Não seria uma boa ideia, usar o PasteBin. Pensei, também, no Telegraph, plataforma de publicação de artigos anônimos, que nos dar a possibilidade de publicar esses artigos e editá-los. E pensando bem, não seria uma boa alternativa deixar esses dados exporto numa página de internet, pois não encontrei uma opção de deixá-las privadas. Enfim, pensei no Google Sheets também, mas... no momento, sinto que ainda não estou preparado para usar alguns serviços do Google.
-
-Por enquanto,  a única alternativa, que encontrei, foi usar o Telegram, o mensageiro baseado em nuvem, que permite iniciar uma mensagem com você mesmo no aplicativo, possibilitando salvar textos, mensagens de voz, links, PDF, documentos do Word, músicas, fotos e vídeos. O mais legal disso tudo é que eu tenho mensagens salvas desde 2015 e, realmente, elas nunca foram apagadas.
-
-
-
-### Informações importantes
+### Informações
 
 O Telebase usa Pyrogram, um framework simples e elegante, para se comunicar com o Telegram. 
 
@@ -73,53 +60,17 @@ Sintaxe da mensagem no Telegram:
 
 ### Métodos
 
-Para ter acessos aos métodos do telebase, é preciso primeiro, ter um objeto instanciado da classe ``Base``. Essa classe tem dois parâmetros. O primeiro parâmetro, que é obrigatório, recebe uma instância ``Client``, do Pyrogram, para que o script funcione. O segundo parâmetro é opcional, ele recebe o link do canal. O link do canal, pode ser passado como argumento tanto na classe ``Base`` como no método ``consultar`` do objeto da classe ``Dados``, que é retornado quando se cria o objeto da classe ``Base`` ; mas não pode ser passado para os dois ao mesmo tempo, caso aconteça, dispara uma exceção informando que o argumento já foi passado como parâmetro.
-
-Essa flexibilidade foi criada, caso exista a possibilidade de ter que usar mais de um canal para consulta de dados.
-
----
-
 * Todos os métodos retornam um dicionário contendo informações da mensagem com suas respectivas linhas.
 
 ------
 
-#### Os atributos/métodos, considerando somente um canal:
+DATABASE = Dados(Client, 'https://')
 
-##### dado
-
-![](imagens/atributoDado.png)
-
-###### retorno
-
-![](imagens/retornoDado.png)
-
-##### editarValor(< chave >, <valor que será mudado>)
-
-![](imagens/metodoeditarValor.png)
-
-###### retorno
-
-![](imagens/editarValorTerminal.png)
-
-![](imagens/editarValorTelegram.png)
-
-
-
-##### adicionarDado(< chave >, < valor >)
-
-##### removerDado(< chave >)
+DATABASE.dados()
+DATABASE.editarValor(<chave>, <novo_valor>)
+DATABASE.AdicionarDado(<chave>, <valor>
+DATABASE.removerDado(<chave>
 
 ---
 
-
-
-### Resumo
-
-
-
-![](imagens/resumo.png)
-
-------
-
-
-
+No geral, o que a classe faz é, recebe a mensagem, retorna em dicionário; ou, internamente, pega o dicionário e retorna em mensagem pra substituir uma mensagem que será editada.
