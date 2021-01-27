@@ -40,8 +40,14 @@ class Dados:
         ''' [!] Mensagem em pyrogram.types.Message '''
         #Itera mensagens com a mesma informação de busca
         informacao = str(ref) + ' ' + str(id)
+        
+        found = None
         for msg in self.__api.search_global(query=informacao, limit = 1):
             self.__msg = msg
+            found = True
+        
+        if not (found):
+            self.__msg = found
         
     def __get_dict(self, msg):
         ''' [!] Formata a mensagem recebida em string, dentro de um dicionário '''
