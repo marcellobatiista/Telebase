@@ -8,9 +8,9 @@
 
 [1. O que é](#O-que-é)
 
-[3. Informações](#Informações)
+[2. Informações](#Informações)
 
-[4. Métodos](#Métodos)
+[3. Métodos](#Métodos)
 
 </div>
 
