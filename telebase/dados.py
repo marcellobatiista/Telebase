@@ -16,30 +16,17 @@ import pyrogram
 
 class Dados:
 
-    entidade = None
     __msg = None
     __api = None
 
-    def __init__(self, app, entidade):
+    def __init__(self, app):
         
         if __name__ == '__main__':
             raise BaseException('É necessário importar a classe Dados')
         
         app.start()
-        
         print('<----| Client iniciado |---->\n')
-        print('Carregando base de dados...')
-        
-        info = app.get_chat(entidade)
         self.__api = app
-            
-        if (info.type == 'channel'):
-            if (info.username != None):
-                raise Exception('Não é possível consultar dados em canais públicos')
-        elif (entidade != 'me'):
-            raise Exception('Não é possível consultar users/groups como base de dados')
-        
-        self.entidade = info.id
             
     def __str__(self):
         if self.__msg is None:
