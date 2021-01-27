@@ -8,10 +8,10 @@ class Bot:
   base = None
   
   def __init__(self, client):
-    self.base = Dados(client, 'https://')
+    self.base = Dados(client)
     
   def example(self):
-    self.base.buscar(bot.from_user.id)
+    self.base.buscar(bot.from_user.id, 'msg1')
     
     data = self.base.dados()
     set_data = self.base.editarValor("contato", "+55 71 9 0000-0000")
