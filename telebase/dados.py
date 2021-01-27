@@ -10,7 +10,9 @@
 ##
 ##
 ##
-import pyrogram, time
+import pyrogram
+
+
 
 class Dados:
 
@@ -38,19 +40,19 @@ class Dados:
             raise Exception('Não é possível consultar users/groups como base de dados')
         
         self.entidade = info.id
-        
             
     def __str__(self):
         if self.__msg is None:
             raise ValueError('A mensagem não foi encontrada')
         elif str(self.__msg.text)[:str(self.__msg.text).find('\n')].count('=') >= 2:
-            raise Exception('Mensagem fora do padrão')
+            raise SyntaxError('Linha com 2+ igualdades')
         return 'Sucesso'
     
 
-    def buscar(self, informacao):
+    def buscar(self, id, ref):
         ''' [!] Mensagem em pyrogram.types.Message '''
         #Itera mensagens com a mesma informação de busca
+        informacao = str(ref) + ' ' + str(id)
         for msg in self.__api.search_global(query=informacao, limit = 1):
             self.__msg = msg
         
@@ -59,21 +61,31 @@ class Dados:
         try:
             return {p.strip().split('=')[0].strip() : p.strip().split('=')[1].strip() 
                     for p in str(msg).split('\n') if p != ''}
-        except:
-            raise Exception('A mensagem foi encontrada, mas o formato de algum dado está fora do padrão')
+        except IndexError:
+            raise IndexError('Mensagem com erro de sintaxe')
 
 
     def __editaMessage(self, new_msg):
         ''' [!] '''
+        tipo = type(new_msg) == dict 
+        
+        if (tipo):
+            new = self.__dict_to_text(new_msg)
+        else:
+            new = new_msg
+            
         try:
-            self.__msg = self.__api.edit_message_text(self.__msg.chat.id, self.__msg.message_id, new_msg)
-            return self.__get_dict(self.__msg.text)
+            self.__msg = self.__api.edit_message_text(self.__msg.chat.id, self.__msg.message_id, new)
         except pyrogram.errors.exceptions.bad_request_400.MessageNotModified:
-            # Não há modificação de mensagem
-            return self.__get_dict(new_msg)
+            pass
+        
+        if (tipo):
+            return new_msg
+        else:
+            return self.__get_dict(self.__msg.text)
     
     def __dict_to_text(self, dado):
-        ''' [!] Dict to text '''
+        ''' [!] '''
         new_msg = ''
         
         for key, value in dado.items():
@@ -87,16 +99,15 @@ class Dados:
         try:
             self.__str__() #Aviso
             return self.__get_dict(self.__msg.text) #Dict
-        except:
-            pass #print('A mensagem retornou vazia ou fora do padrão')
+        except ValueError: #Msg não encontrada
+            return None
             
     def editarValor(self, key, value):
         ''' [!] Edita a mensagem relacionada à key e retorna um dicionário '''
         dado = self.dados()
         dado[key] = value
-        new_msg = self.__dict_to_text(dado)
         
-        return self.__editaMessage(new_msg)
+        return self.__editaMessage(dado)
 
     def adicionarDado(self, key, value):
         ''' [!] Adiciona o dado no fim da mensagem e retorna um dicionário '''
@@ -109,7 +120,5 @@ class Dados:
     def removerDado(self, key):
         ''' [!] Remove uma linha específica da mensagem de acordo a key recebida'''   
         dado = self.dados().pop(str(key))
-        new_msg = self.__dict_to_text(dado)
         
-        return self.__editaMessage(new_msg)
-    
+        return self.__editaMessage(dado)
