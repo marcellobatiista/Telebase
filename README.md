@@ -4,74 +4,122 @@
 
 ---
 
-<div align="center">
 
-[1. O que é](#O-que-é)
+# Telebase
 
-[2. Informações](#Informações)
+Telebase é um projeto de código aberto que visa 
+a criação de um sistema de gerenciamento de dados json para o Telegram.
 
-[3. Métodos](#Métodos)
+Através de um mais bots do Telegram em um canal privado, que ajudam no CRUD dos dados. 
 
-</div>
+O intuito foi de facilitar no armazenamento e regaste de dados, como por exemplo,
+uma lista de presença, uma lista de tarefas, uma lista de compras, etc 
+sem a necessidade de um banco de dados.
 
----
+## Instalação
+```bash
+pip install telebase
+```
 
-### O que é
+## Como usar
 
-Telebase é um script feito com a necessidade de resgatar, editar e remover dados, já enviados, em um canal privado do Telegram, fazendo dele uma base de dados externa, através de uma identificação única por mensagem.
+### 1. Criando um bot
 
-### Informações
+Para criar um bot, você deve falar com o @BotFather no Telegram, e seguir as instruções.
 
-O Telebase usa Pyrogram, um framework simples e elegante, para se comunicar com o Telegram. 
+### 2. Criando um canal
 
-requirements: 
+### 3. Adicionando os bots no canal
 
-`` pip3 install -U pyrogram tgcrypto ``
+### 4. Criando a aplicação
 
----
+```python
 
-Sintaxe da mensagem no Telegram:
+from telebase import Telebase
 
-`` <nome da chave> = <valor da chave> ``
+# Crie um objeto Telebase
+db = TeleBase()
 
-![](imagens/sintaxe.gif)
+# Adicione o bot no objeto Telebase
+db.adicionar_bot('<TOKEN: Union[str, list]>')
 
----
+# Chame a mensagem de boas vindas no canal
+db.criar_database()  # /start
+```
+No Telegram, você deve receber uma mensagem de boas vindas, com o ID do canal e a base de dados.
 
-* O aplicativo permite enviar uma mensagem com até 65.536 caracteres. Com essa enorme quantidade, é possível ter diversas chaves, de diferentes tamanhos, contendo valores, de diferentes tamanhos, para cada mensagem. Ou seja, pode ter estes pares de chaves e muito mais:
-<div align="center">
-  
-![](imagens/msg.png)
-</div>
+```json
+TeleBase iniciado
 
-* A mensagem é encontrada a partir de uma informação única qualquer, entre todas as mensagens.
+{
+  "ID": -1001488349617,
+  "base": 1095,
+  "tabelas": {}
+}
+____
+```
 
-* Para cada chave, uma linha. Não é possível ter duas ou mais, chaves ou igualdades, na mesma linha. Caso o telebase encontre esse erro de sintaxe, será disparado uma exceção, avisando que alguma chave está fora do padrão.  
+Após isso, você já pode começar a usar o Telebase.
 
-* Tanto a chave, quanto o valor, são strings. Independente de ser um número ou um caractere especial.
+## Crie tabelas
 
-  
+```python
+from telebase import Telebase
 
-* Se a mensagem não for encontrada, é disparado uma exceção informando a mesma.
+db = TeleBase(int('<CHAT_ID>'), int('<DATABASE_ID>'))
+db.adicionar_bot('<TOKEN: Union[str, list]>')
 
----
+# Inicie os bots
+db.iniciar_bot()
+# Insira as tabelas
+db.criar_tabela('usuarios')
+```
+No Telegram você deve receber uma mensagem de confirmação.
 
-### Métodos
+```json
+{
+  "tabela": "usuarios",
+  "dados": [
+        {}
+   ]
+}
+```
 
-* Todos os métodos retornam um dicionário contendo informações da mensagem com suas respectivas linhas.
----
-database = Dados(Client)
+## Inserindo dados
 
-database.buscar(id, ref)
+```python
 
-database.dados()
+from telebase import Telebase
 
-database.editarValor(chave, novo_valor)
+db = TeleBase(int('<CHAT_ID>'), int('<DATABASE_ID>'))
+db.adicionar_bot('<TOKEN: Union[str, list]>')
+db.iniciar_bot()
 
-database.adicionarDado(chave, valor)
+# Insira os dados
+db.add('<TABELA>', '<CHAVE>', '<VALOR>')
+```
 
-database.removerDado(chave)
 
----
+# Métodos disponíveis
 
-No geral, o que a classe faz é, recebe a mensagem, retorna em dicionário; ou, internamente, pega o dicionário e retorna em mensagem pra substituir uma mensagem que será editada.
+```python
+db.criar_tabela('<TABELA>')  # Cria uma tabela
+db.get_tabela('<TABELA>')  # Retorna uma tabela
+db.drop_tabela('<TABELA>')  # Deleta a tabela
+db.add('<TABELA>', '<CHAVE>', '<VALOR>')  # Insere dados
+db.get('<TABELA>', '<CHAVE>')  # Retorna os dados
+db.get_all('<TABELA>')  # Retorna todos os dados
+db.get_all_keys('<TABELA>')  # Retorna todas as chaves
+db.get_all_values('<TABELA>')  # Retorna todos os valores
+db.update('<TABELA>', '<CHAVE>', '<VALOR>')  # Atualiza os dados
+db.delete('<TABELA>', '<CHAVE>')  # Deleta os dados
+db.drop_database()  # Deleta a base de dados
+```
+
+## Contribuindo
+
+Contribuições são sempre bem-vindas!
+
+## Autor
+
+[**@marcellobatiista**](https://github.com/marcellobatiista)
