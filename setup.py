@@ -22,6 +22,8 @@ setup(
     author=autor,
     author_email=email,
 
+    license='MIT',
+
     keywords='telegram chat messenger api db json database crud library python',
     python_requires='>=3.7',
     packages=['telebase'],
