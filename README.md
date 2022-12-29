@@ -20,6 +20,11 @@ sem a necessidade de um banco de dados.
 ```bash
 pip install telebase
 ```
+ou
+
+```bash
+python setup.py install
+```
 
 ## Como usar
 
